@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AWS Cloud Security with Prowler</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      color: #38bdf8;
+    }
+    section {
+      margin-bottom: 50px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table, th, td {
+      border: 1px solid #334155;
+    }
+    th, td {
+      padding: 10px;
+    }
+    th {
+      background: #0f172a;
+    }
+    code {
+      background: #020617;
+      padding: 8px;
+      display: block;
+      margin: 8px 0;
+      color: #22d3ee;
+    }
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>AWS Cloud Security & Compliance using Prowler</h1>
+<p><strong>Trainer:</strong> Vishwanath Gowda | Principal Cybersecurity Engineer</p>
+<p><strong>Expertise:</strong> Cloud Security, DevSecOps, AWS, CSPM, Compliance</p>
+
+<hr>
+
+<section>
+<h2>1️⃣ What is Cloud Security?</h2>
+<p>
+Cloud Security is the practice of protecting <strong>cloud infrastructure, services,
+applications, identities, and data</strong> from misconfigurations, attacks, and data breaches.
+</p>
+
+<h3>Why Cloud Security is Critical?</h3>
+<ul>
+  <li>Shared Responsibility Model</li>
+  <li>Misconfigurations cause 80%+ breaches</li>
+  <li>Compliance requirements (ISO, SOC2, HIPAA, PCI)</li>
+  <li>Identity is the new perimeter</li>
+</ul>
+</section>
+
+<section>
+<h2>2️⃣ AWS Shared Responsibility Model</h2>
+<table>
+<tr><th>AWS Responsibility</th><th>Customer Responsibility</th></tr>
+<tr><td>Physical DC, Hardware</td><td>IAM, Data, OS, Network rules</td></tr>
+<tr><td>Underlying Cloud Infra</td><td>Security Groups, NACLs</td></tr>
+<tr><td>Availability Zones</td><td>Patch management</td></tr>
+</table>
+</section>
+
+<section>
+<h2>3️⃣ Cloud Threats & Misconfigurations</h2>
+<table>
+<tr><th>Area</th><th>Risk</th></tr>
+<tr><td>IAM</td><td>Over-permissive roles, no MFA</td></tr>
+<tr><td>S3</td><td>Public buckets, no encryption</td></tr>
+<tr><td>EC2</td><td>Open SSH/RDP</td></tr>
+<tr><td>Network</td><td>0.0.0.0/0 exposure</td></tr>
+<tr><td>Logging</td><td>CloudTrail disabled</td></tr>
+</table>
+</section>
+
+<section>
+<h2>4️⃣ What is Prowler?</h2>
+<p>
+<strong>Prowler</strong> is an <strong>open-source Cloud Security Posture Management (CSPM)</strong> tool
+used to assess AWS environments against <strong>security best practices and compliance frameworks</strong>.
+</p>
+
+<h3>Why Prowler?</h3>
+<ul>
+  <li>Agentless</li>
+  <li>Open-source</li>
+  <li>Auditor-friendly reports</li>
+  <li>Supports multiple frameworks</li>
+</ul>
+</section>
+
+<section>
+<h2>5️⃣ Frameworks Supported by Prowler</h2>
+<table>
+<tr><th>Framework</th><th>Purpose</th></tr>
+<tr><td>CIS AWS</td><td>Baseline security controls</td></tr>
+<tr><td>ISO 27001</td><td>Information security management</td></tr>
+<tr><td>SOC 2</td><td>Trust service criteria</td></tr>
+<tr><td>NIST</td><td>Risk-based security</td></tr>
+<tr><td>PCI-DSS</td><td>Payment security</td></tr>
+<tr><td>HIPAA</td><td>Healthcare data protection</td></tr>
+</table>
+</section>
+
+<section>
+<h2>6️⃣ Prowler Architecture</h2>
+<ol>
+  <li>Uses AWS API calls (read-only)</li>
+  <li>Assumes IAM Role / AWS credentials</li>
+  <li>Scans resources region-wise</li>
+  <li>Maps findings to compliance controls</li>
+  <li>Generates HTML / CSV / JSON reports</li>
+</ol>
+</section>
+
+<section>
+<h2>7️⃣ Installing Prowler (Practical)</h2>
+
+<h3>🔹 Using Git</h3>
+<code>
+git clone https://github.com/prowler-cloud/prowler.git  
+cd prowler  
+pip3 install -r requirements.txt
+</code>
+
+<h3>🔹 Using Docker (Recommended)</h3>
+<code>
+docker run --rm -it  
+-v ~/.aws:/root/.aws  
+prowler/prowler aws
+</code>
+</section>
+
+<section>
+<h2>8️⃣ Running Prowler on AWS</h2>
+
+<h3>Default Scan</h3>
+<code>
+./prowler aws
+</code>
+
+<h3>Specific Framework (CIS)</h3>
+<code>
+./prowler aws -f cis
+</code>
+
+<h3>Specific Region</h3>
+<code>
+./prowler aws -r us-east-1
+</code>
+
+<h3>Specific Account via Role</h3>
+<code>
+./prowler aws --role arn:aws:iam::123456789012:role/AuditRole
+</code>
+</section>
+
+<section>
+<h2>9️⃣ Understanding Prowler Findings</h2>
+<table>
+<tr><th>Severity</th><th>Meaning</th></tr>
+<tr><td>Critical</td><td>Immediate risk</td></tr>
+<tr><td>High</td><td>Major security gap</td></tr>
+<tr><td>Medium</td><td>Needs attention</td></tr>
+<tr><td>Low</td><td>Best practice</td></tr>
+<tr><td>Info</td><td>Visibility finding</td></tr>
+</table>
+</section>
+
+<section>
+<h2>🔟 Sample Findings (Real World)</h2>
+<ul>
+  <li>S3 bucket allows public access ❌</li>
+  <li>IAM users without MFA ❌</li>
+  <li>CloudTrail not enabled ❌</li>
+  <li>Security Group open to 0.0.0.0/0 ❌</li>
+</ul>
+</section>
+
+<section>
+<h2>1️⃣1️⃣ Remediation Examples</h2>
+
+<h3>S3 Public Access</h3>
+<ul>
+  <li>Enable Block Public Access</li>
+  <li>Use IAM policies</li>
+  <li>Enable encryption</li>
+</ul>
+
+<h3>IAM MFA</h3>
+<ul>
+  <li>Enable MFA</li>
+  <li>Remove long-term access keys</li>
+</ul>
+</section>
+
+<section>
+<h2>1️⃣2️⃣ Roles & Responsibilities</h2>
+
+<h3>Cloud Security Engineer</h3>
+<ul>
+  <li>Run CSPM tools</li>
+  <li>Analyze findings</li>
+  <li>Guide remediation</li>
+</ul>
+
+<h3>Cloud Team</h3>
+<ul>
+  <li>Fix misconfigurations</li>
+  <li>Follow least privilege</li>
+</ul>
+</section>
+
+<section>
+<h2>⚖️ Security & Ethics</h2>
+<p>
+✔ Run Prowler only on <strong>authorized AWS accounts</strong>  
+<br>
+✔ Use read-only audit roles  
+<br>
+❌ Never scan customer accounts without approval
+</p>
+</section>
+
+<footer>
+<p>© 2026 | Vishwanath Gowda | AWS Cloud Security Training</p>
+</footer>
+
+</body>
+</html>
